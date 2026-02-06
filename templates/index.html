@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>EnfBot – Evolução de Enfermagem</title>
+</head>
+<body>
+
+<h2>EnfBot – Evolução Técnica de Enfermagem</h2>
+
+<form method="POST">
+
+    <label>Horário da evolução</label><br>
+    <input type="time" name="horario" required><br><br>
+
+    <label>Paciente consciente e orientado?</label><br>
+    <select name="consciente" required>
+        <option value="">Selecione</option>
+        <option value="1">1 - Sim</option>
+        <option value="2">2 - Não</option>
+    </select><br><br>
+
+    <label>Paciente se queixa de algo?</label><br>
+    <select name="queixa" required>
+        <option value="">Selecione</option>
+        <option value="1">1 - Sim</option>
+        <option value="2">2 - Não</option>
+    </select><br><br>
+
+    <label>Se sim, qual a queixa?</label><br>
+    <input type="text" name="descricao_queixa"><br><br>
+
+    <label>Escala da dor (0–10)</label><br>
+    <input type="number" name="dor" min="0" max="10"><br><br>
+
+    <label>Punção venosa realizada?</label><br>
+    <select name="puncao" required>
+        <option value="">Selecione</option>
+        <option value="1">1 - Sim</option>
+        <option value="2">2 - Não</option>
+    </select><br><br>
+
+    <label>Você sabe a numeração do abocath?</label><br>
+    <select name="sabe_abocath" required>
+        <option value="">Selecione</option>
+        <option value="1">1 - Sim</option>
+        <option value="2">2 - Não</option>
+    </select><br><br>
+
+    <label>Numeração do abocath</label><br>
+    <select name="abocath">
+        <option value="">Selecione</option>
+        <option value="18">18</option>
+        <option value="20">20</option>
+        <option value="22">22</option>
+        <option value="24">24</option>
+    </select><br><br>
+
+    <label>Medicação administrada conforme prescrição?</label><br>
+    <select name="medicacao" required>
+        <option value="">Selecione</option>
+        <option value="1">1 - Sim</option>
+        <option value="2">2 - Não</option>
+    </select><br><br>
+
+    <label>Desfecho do paciente</label><br>
+    <select name="desfecho" required>
+        <option value="">Selecione</option>
+        <option value="1">1 - Alta</option>
+        <option value="2">2 - Retorno para avaliação médica</option>
+    </select><br><br>
+
+    <label>Técnica de enfermagem</label><br>
+    <input type="text" name="tecnica" required><br><br>
+
+    <button type="submit">Gerar evolução</button>
+
+</form>
+
+{% if texto %}
+<hr>
+<h3>Evolução gerada</h3>
+<textarea rows="14" cols="90" readonly>{{ texto }}</textarea>
+{% endif %}
+
+<!-- Footer fixo -->
+<footer style="position:fixed; bottom:0; width:100%; text-align:center; background:#f1f1f1; padding:10px; border-top:1px solid #ccc;">
+    EnfEvolue © 2026<br>
+    Ferramenta de apoio à evolução técnica de enfermagem.<br>
+    Não substitui registros oficiais do prontuário eletrônico.<br>
+    Desenvolvido por <strong>Bárbara Nunes Programmer</strong>
+</footer>
+
+</body>
+</html>
