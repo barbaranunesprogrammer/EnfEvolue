@@ -50,9 +50,7 @@ git clone https://github.com/barbaranunesprogrammer/EnfEvolue.git
 
 Versão Online
 
-Aplicação hospedada no Render:
-
-https://enfevolue-1.onrender.com/
+https://enf-evolue.vercel.app/
 
 📌 Próximos Upgrades (Roadmap)
 
