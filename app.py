@@ -3,39 +3,77 @@ from flask import Flask, request, render_template, render_template_string, redir
 app = Flask(__name__)
 app.secret_key = "enfevolue-secreto"
 
+# 🔐 senha simples
 SENHA_SITE = "enf123"
 
+# 👩‍⚕️ profissionais com COREN
 PROFISSIONAIS = {
     "Miranilde Cardoso dos Santos Sousa": "COREN-GO 1.557.972",
     "Edna Maria Paulino da Silva": "COREN-GO 2.314.046",
     "Valderice Alves da Silva": "COREN-GO 1.062.815",
-    "Barbara Elen Sales Nunes": "COREN-GO 2.375.052",
+    "Bárbara Elen Sales Nunes": "COREN-GO 2.375.052",
     "Elivane Sales Lima dos Santos": "COREN-GO 1.873.617"
 }
 
+# 🔐 tela de login estilizada (usa o mesmo CSS do site)
 LOGIN_HTML = """
-<h2>EnfEvolue</h2>
-<form method="post">
-    <p>Digite a senha para acessar:</p>
-    <input type="password" name="senha" required>
-    <br><br>
-    <button type="submit">Entrar</button>
-    {% if erro %}
-        <p style="color:red;">Senha incorreta</p>
-    {% endif %}
-</form>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>EnfEvolue – Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>EnfEvolue</h1>
+    <p>Evolução Técnica de Enfermagem</p>
+</header>
+
+<main>
+    <form method="post" style="max-width:400px;margin:auto;">
+        <h2 style="text-align:center;">Acesso Restrito</h2>
+
+        <label>Digite a senha</label>
+        <input type="password" name="senha" required>
+
+        {% if erro %}
+            <p style="color:red;text-align:center;margin-top:10px;">
+                Senha incorreta
+            </p>
+        {% endif %}
+
+        <button type="submit">Entrar</button>
+    </form>
+</main>
+
+<footer>
+    <p>
+        EnfEvolue © 2026<br>
+        Ferramenta de apoio à evolução técnica de enfermagem
+    </p>
+    <strong>Desenvolvido por Bárbara Nunes Programmer</strong>
+</footer>
+
+</body>
+</html>
 """
 
+# 🔐 rota de login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = False
     if request.method == "POST":
-        if request.form["senha"] == SENHA_SITE:
+        if request.form.get("senha") == SENHA_SITE:
             session["logado"] = True
             return redirect("/")
         erro = True
     return render_template_string(LOGIN_HTML, erro=erro)
 
+# 🧠 rota principal
 @app.route("/", methods=["GET", "POST"])
 def index():
     if not session.get("logado"):
@@ -44,17 +82,19 @@ def index():
     texto = ""
 
     if request.method == "POST":
-        h = request.form["horario"]
-        consciente = request.form["consciente"]
-        queixa = request.form["queixa"]
+        # dados do formulário (sempre usando .get pra evitar erro)
+        h = request.form.get("horario", "")
+        consciente = request.form.get("consciente", "")
+        queixa = request.form.get("queixa", "")
         desc = request.form.get("descricao_queixa", "")
         dor = request.form.get("dor", "")
-        puncao = request.form["puncao"]
+        puncao = request.form.get("puncao", "")
         abocath = request.form.get("abocath", "")
-        medicacao = request.form["medicacao"]
-        desfecho = request.form["desfecho"]
+        medicacao = request.form.get("medicacao", "")
+        desfecho = request.form.get("desfecho", "")
 
-        profissional = request.form["profissional"]
+        # profissional
+        profissional = request.form.get("profissional", "")
         profissional_outro = request.form.get("profissional_outro", "")
         coren_manual = request.form.get("coren", "")
 
@@ -65,8 +105,14 @@ def index():
             nome_profissional = profissional
             coren = PROFISSIONAIS.get(profissional, "COREN não informado")
 
+        # texto da evolução
         texto = f"{h} – Recebo paciente da Sala de Medicação.\n"
-        texto += "Paciente consciente e orientado.\n" if consciente == "1" else "Paciente não orientado.\n"
+
+        texto += (
+            "Paciente consciente e orientado.\n"
+            if consciente == "1"
+            else "Paciente não orientado.\n"
+        )
 
         if queixa == "1":
             texto += f"Refere {desc if desc else 'queixa não especificada'}"
