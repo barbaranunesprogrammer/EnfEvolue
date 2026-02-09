@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>EnfEvolue – Evolução de Enfermagem</title>
+
+  <!-- Tailwind CSS COMPATÍVEL COM RENDER -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 min-h-screen flex flex-col">
@@ -16,9 +22,9 @@
   </header>
 
   <!-- CONTEÚDO -->
-  <main class="flex-1 p-4 md:p-6 max-w-5xl mx-auto w-full">
+  <main class="flex-1 p-4 md:p-6 max-w-4xl mx-auto w-full">
 
-    <form method="post" class="bg-white p-5 md:p-6 rounded-lg shadow space-y-8">
+    <form method="POST" class="bg-white p-5 md:p-6 rounded-lg shadow space-y-6">
 
       <!-- DADOS -->
       <section>
@@ -26,39 +32,41 @@
           Dados da Evolução
         </h2>
 
-        <div class="grid md:grid-cols-2 gap-4">
-          <div>
-            <label class="block font-medium">Horário da evolução</label>
-            <input type="time" name="horario"
-              class="w-full border rounded p-2 mt-1" required>
-          </div>
+        <label class="block text-sm font-medium">Horário da evolução</label>
+        <input type="time" name="horario"
+          class="w-full border rounded p-2 mb-4" required>
 
-          <div>
-            <label class="block font-medium">Paciente consciente e orientado?</label>
-            <select name="consciente"
-              class="w-full border rounded p-2 mt-1">
-              <option value="">Selecione</option>
-              <option value="1">Sim</option>
-              <option value="0">Não</option>
-            </select>
-          </div>
-        </div>
-
-        <label class="block font-medium mt-4">Paciente se queixa de algo?</label>
-        <select name="queixa"
-          class="w-full border rounded p-2 mt-1">
+        <label class="block text-sm font-medium">
+          Paciente consciente e orientado?
+        </label>
+        <select name="consciente"
+          class="w-full border rounded p-2 mb-4" required>
           <option value="">Selecione</option>
           <option value="1">Sim</option>
-          <option value="0">Não</option>
+          <option value="2">Não</option>
         </select>
 
-        <label class="block font-medium mt-4">Descrição da queixa</label>
-        <input type="text" name="descricao_queixa"
-          class="w-full border rounded p-2 mt-1">
+        <label class="block text-sm font-medium">
+          Paciente se queixa de algo?
+        </label>
+        <select name="queixa"
+          class="w-full border rounded p-2 mb-4" required>
+          <option value="">Selecione</option>
+          <option value="1">Sim</option>
+          <option value="2">Não</option>
+        </select>
 
-        <label class="block font-medium mt-4">Escala da dor (0–10)</label>
+        <label class="block text-sm font-medium">
+          Descrição da queixa
+        </label>
+        <input type="text" name="descricao_queixa"
+          class="w-full border rounded p-2 mb-4">
+
+        <label class="block text-sm font-medium">
+          Escala da dor (0–10)
+        </label>
         <input type="number" name="dor" min="0" max="10"
-          class="w-full border rounded p-2 mt-1">
+          class="w-full border rounded p-2">
       </section>
 
       <!-- PROCEDIMENTOS -->
@@ -67,17 +75,21 @@
           Procedimentos
         </h2>
 
-        <label class="block font-medium">Punção venosa realizada?</label>
+        <label class="block text-sm font-medium">
+          Punção venosa realizada?
+        </label>
         <select name="puncao"
-          class="w-full border rounded p-2 mt-1 mb-3">
+          class="w-full border rounded p-2 mb-4" required>
           <option value="">Selecione</option>
           <option value="1">Sim</option>
-          <option value="0">Não</option>
+          <option value="2">Não</option>
         </select>
 
-        <label class="block font-medium">Numeração do abocath</label>
+        <label class="block text-sm font-medium">
+          Numeração do abocath
+        </label>
         <select name="abocath"
-          class="w-full border rounded p-2 mt-1 mb-3">
+          class="w-full border rounded p-2 mb-4">
           <option value="">Selecione</option>
           <option>18</option>
           <option>20</option>
@@ -85,22 +97,24 @@
           <option>24</option>
         </select>
 
-        <label class="block font-medium">
+        <label class="block text-sm font-medium">
           Medicação administrada conforme prescrição?
         </label>
         <select name="medicacao"
-          class="w-full border rounded p-2 mt-1 mb-3">
+          class="w-full border rounded p-2 mb-4" required>
           <option value="">Selecione</option>
           <option value="1">Sim</option>
-          <option value="0">Não</option>
+          <option value="2">Não</option>
         </select>
 
-        <label class="block font-medium">Desfecho do paciente</label>
+        <label class="block text-sm font-medium">
+          Desfecho do paciente
+        </label>
         <select name="desfecho"
-          class="w-full border rounded p-2 mt-1">
+          class="w-full border rounded p-2" required>
           <option value="">Selecione</option>
           <option value="1">Alta</option>
-          <option value="0">Retorno para avaliação médica</option>
+          <option value="2">Retorno para avaliação médica</option>
         </select>
       </section>
 
@@ -110,30 +124,46 @@
           Profissional Responsável
         </h2>
 
-        <label class="block font-medium">Técnica de Enfermagem</label>
+        <label class="block text-sm font-medium">
+          Técnica de Enfermagem
+        </label>
         <select name="profissional"
-          class="w-full border rounded p-2 mt-1 mb-3">
+          class="w-full border rounded p-2 mb-4" required>
           <option value="">Selecione</option>
-          <option>Miranilde Cardoso dos Santos Sousa</option>
-          <option>Edna Maria Paulino da Silva</option>
-          <option>Valderice Alves da Silva</option>
-          <option>Barbara Elen Sales Nunes</option>
-          <option>Elivane Sales Lima dos Santos</option>
+          <option value="Miranilde Cardoso dos Santos Sousa">
+            Miranilde Cardoso dos Santos Sousa – COREN-GO 1.557.972
+          </option>
+          <option value="Edna Maria Paulino da Silva">
+            Edna Maria Paulino da Silva – COREN-GO 2.314.046
+          </option>
+          <option value="Valderice Alves da Silva">
+            Valderice Alves da Silva – COREN-GO 1.062.815
+          </option>
+          <option value="Barbara Elen Sales Nunes">
+            Bárbara Elen Sales Nunes – COREN-GO 2.375.052
+          </option>
+          <option value="Elivane Sales Lima dos Santos">
+            Elivane Sales Lima dos Santos – COREN-GO 1.873.617
+          </option>
           <option value="outra">Outra profissional</option>
         </select>
 
-        <label class="block font-medium">Nome (se outra)</label>
+        <label class="block text-sm font-medium">
+          Nome (se outra)
+        </label>
         <input type="text" name="profissional_outro"
-          class="w-full border rounded p-2 mt-1 mb-3">
+          class="w-full border rounded p-2 mb-4">
 
-        <label class="block font-medium">COREN (se outra)</label>
+        <label class="block text-sm font-medium">
+          COREN (se outra)
+        </label>
         <input type="text" name="coren"
-          class="w-full border rounded p-2 mt-1">
+          class="w-full border rounded p-2">
       </section>
 
       <!-- BOTÃO -->
       <button
-        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold
+        class="w-full bg-blue-600 text-white py-3 rounded font-semibold
                hover:bg-blue-700 transition">
         Gerar Evolução
       </button>
@@ -141,16 +171,16 @@
     </form>
 
     <!-- RESULTADO -->
-    <section class="mt-8">
-      <h2 class="text-lg font-semibold text-blue-600 mb-3">
+    {% if texto %}
+    <section class="mt-6">
+      <h2 class="text-lg font-semibold text-blue-600 mb-2 text-center">
         Evolução Gerada
       </h2>
-
       <textarea
-        class="w-full h-[350px] md:h-[450px] border rounded p-4 text-sm resize-none"
-        readonly
-      >{{ texto }}</textarea>
+        class="w-full h-72 md:h-96 border rounded p-4 text-sm"
+        readonly>{{ texto }}</textarea>
     </section>
+    {% endif %}
 
   </main>
 
