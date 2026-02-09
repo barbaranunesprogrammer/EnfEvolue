@@ -6,16 +6,16 @@ app.secret_key = "enfevolue-secreto"
 # 🔐 senha simples
 SENHA_SITE = "enf123"
 
-# 👩‍⚕️ profissionais com COREN
+# 👩‍⚕️ profissionais com COREN (SEM acento nas chaves)
 PROFISSIONAIS = {
     "Miranilde Cardoso dos Santos Sousa": "COREN-GO 1.557.972",
     "Edna Maria Paulino da Silva": "COREN-GO 2.314.046",
     "Valderice Alves da Silva": "COREN-GO 1.062.815",
-    "Bárbara Elen Sales Nunes": "COREN-GO 2.375.052",
+    "Barbara Elen Sales Nunes": "COREN-GO 2.375.052",
     "Elivane Sales Lima dos Santos": "COREN-GO 1.873.617"
 }
 
-# 🔐 tela de login estilizada (usa o mesmo CSS do site)
+# 🔐 login estilizado
 LOGIN_HTML = """
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -25,7 +25,6 @@ LOGIN_HTML = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/style.css">
 </head>
-
 <body>
 
 <header>
@@ -62,7 +61,6 @@ LOGIN_HTML = """
 </html>
 """
 
-# 🔐 rota de login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = False
@@ -73,7 +71,6 @@ def login():
         erro = True
     return render_template_string(LOGIN_HTML, erro=erro)
 
-# 🧠 rota principal
 @app.route("/", methods=["GET", "POST"])
 def index():
     if not session.get("logado"):
@@ -82,7 +79,6 @@ def index():
     texto = ""
 
     if request.method == "POST":
-        # dados do formulário (sempre usando .get pra evitar erro)
         h = request.form.get("horario", "")
         consciente = request.form.get("consciente", "")
         queixa = request.form.get("queixa", "")
@@ -93,7 +89,6 @@ def index():
         medicacao = request.form.get("medicacao", "")
         desfecho = request.form.get("desfecho", "")
 
-        # profissional
         profissional = request.form.get("profissional", "")
         profissional_outro = request.form.get("profissional_outro", "")
         coren_manual = request.form.get("coren", "")
@@ -105,7 +100,6 @@ def index():
             nome_profissional = profissional
             coren = PROFISSIONAIS.get(profissional, "COREN não informado")
 
-        # texto da evolução
         texto = f"{h} – Recebo paciente da Sala de Medicação.\n"
 
         texto += (
