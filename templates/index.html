@@ -1,95 +1,169 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>EnfBot – Evolução de Enfermagem</title>
+  <meta charset="UTF-8">
+  <title>EnfEvolue – Evolução de Enfermagem</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-<h2>EnfBot – Evolução Técnica de Enfermagem</h2>
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-<form method="POST">
+  <!-- HEADER -->
+  <header class="bg-blue-600 text-white p-6 shadow text-center">
+    <h1 class="text-3xl font-bold">EnfEvolue</h1>
+    <p class="text-sm mt-1">Evolução Técnica de Enfermagem</p>
+  </header>
 
-    <label>Horário da evolução</label><br>
-    <input type="time" name="horario" required><br><br>
+  <!-- CONTEÚDO -->
+  <main class="flex-1 p-4 md:p-6 max-w-5xl mx-auto w-full">
 
-    <label>Paciente consciente e orientado?</label><br>
-    <select name="consciente" required>
-        <option value="">Selecione</option>
-        <option value="1">1 - Sim</option>
-        <option value="2">2 - Não</option>
-    </select><br><br>
+    <form method="post" class="bg-white p-5 md:p-6 rounded-lg shadow space-y-8">
 
-    <label>Paciente se queixa de algo?</label><br>
-    <select name="queixa" required>
-        <option value="">Selecione</option>
-        <option value="1">1 - Sim</option>
-        <option value="2">2 - Não</option>
-    </select><br><br>
+      <!-- DADOS -->
+      <section>
+        <h2 class="text-lg font-semibold text-blue-600 mb-4">
+          Dados da Evolução
+        </h2>
 
-    <label>Se sim, qual a queixa?</label><br>
-    <input type="text" name="descricao_queixa"><br><br>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium">Horário da evolução</label>
+            <input type="time" name="horario"
+              class="w-full border rounded p-2 mt-1" required>
+          </div>
 
-    <label>Escala da dor (0–10)</label><br>
-    <input type="number" name="dor" min="0" max="10"><br><br>
+          <div>
+            <label class="block font-medium">Paciente consciente e orientado?</label>
+            <select name="consciente"
+              class="w-full border rounded p-2 mt-1">
+              <option value="">Selecione</option>
+              <option value="1">Sim</option>
+              <option value="0">Não</option>
+            </select>
+          </div>
+        </div>
 
-    <label>Punção venosa realizada?</label><br>
-    <select name="puncao" required>
-        <option value="">Selecione</option>
-        <option value="1">1 - Sim</option>
-        <option value="2">2 - Não</option>
-    </select><br><br>
+        <label class="block font-medium mt-4">Paciente se queixa de algo?</label>
+        <select name="queixa"
+          class="w-full border rounded p-2 mt-1">
+          <option value="">Selecione</option>
+          <option value="1">Sim</option>
+          <option value="0">Não</option>
+        </select>
 
-    <label>Você sabe a numeração do abocath?</label><br>
-    <select name="sabe_abocath" required>
-        <option value="">Selecione</option>
-        <option value="1">1 - Sim</option>
-        <option value="2">2 - Não</option>
-    </select><br><br>
+        <label class="block font-medium mt-4">Descrição da queixa</label>
+        <input type="text" name="descricao_queixa"
+          class="w-full border rounded p-2 mt-1">
 
-    <label>Numeração do abocath</label><br>
-    <select name="abocath">
-        <option value="">Selecione</option>
-        <option value="18">18</option>
-        <option value="20">20</option>
-        <option value="22">22</option>
-        <option value="24">24</option>
-    </select><br><br>
+        <label class="block font-medium mt-4">Escala da dor (0–10)</label>
+        <input type="number" name="dor" min="0" max="10"
+          class="w-full border rounded p-2 mt-1">
+      </section>
 
-    <label>Medicação administrada conforme prescrição?</label><br>
-    <select name="medicacao" required>
-        <option value="">Selecione</option>
-        <option value="1">1 - Sim</option>
-        <option value="2">2 - Não</option>
-    </select><br><br>
+      <!-- PROCEDIMENTOS -->
+      <section>
+        <h2 class="text-lg font-semibold text-blue-600 mb-4">
+          Procedimentos
+        </h2>
 
-    <label>Desfecho do paciente</label><br>
-    <select name="desfecho" required>
-        <option value="">Selecione</option>
-        <option value="1">1 - Alta</option>
-        <option value="2">2 - Retorno para avaliação médica</option>
-    </select><br><br>
+        <label class="block font-medium">Punção venosa realizada?</label>
+        <select name="puncao"
+          class="w-full border rounded p-2 mt-1 mb-3">
+          <option value="">Selecione</option>
+          <option value="1">Sim</option>
+          <option value="0">Não</option>
+        </select>
 
-    <label>Técnica de enfermagem</label><br>
-    <input type="text" name="tecnica" required><br><br>
+        <label class="block font-medium">Numeração do abocath</label>
+        <select name="abocath"
+          class="w-full border rounded p-2 mt-1 mb-3">
+          <option value="">Selecione</option>
+          <option>18</option>
+          <option>20</option>
+          <option>22</option>
+          <option>24</option>
+        </select>
 
-    <button type="submit">Gerar evolução</button>
+        <label class="block font-medium">
+          Medicação administrada conforme prescrição?
+        </label>
+        <select name="medicacao"
+          class="w-full border rounded p-2 mt-1 mb-3">
+          <option value="">Selecione</option>
+          <option value="1">Sim</option>
+          <option value="0">Não</option>
+        </select>
 
-</form>
+        <label class="block font-medium">Desfecho do paciente</label>
+        <select name="desfecho"
+          class="w-full border rounded p-2 mt-1">
+          <option value="">Selecione</option>
+          <option value="1">Alta</option>
+          <option value="0">Retorno para avaliação médica</option>
+        </select>
+      </section>
 
-{% if texto %}
-<hr>
-<h3>Evolução gerada</h3>
-<textarea rows="14" cols="90" readonly>{{ texto }}</textarea>
-{% endif %}
+      <!-- PROFISSIONAL -->
+      <section>
+        <h2 class="text-lg font-semibold text-blue-600 mb-4">
+          Profissional Responsável
+        </h2>
 
-<!-- Footer fixo -->
-<footer style="position:fixed; bottom:0; width:100%; text-align:center; background:#f1f1f1; padding:10px; border-top:1px solid #ccc;">
-    EnfEvolue © 2026<br>
-    Ferramenta de apoio à evolução técnica de enfermagem.<br>
-    Não substitui registros oficiais do prontuário eletrônico.<br>
-    Desenvolvido por <strong>Bárbara Nunes Programmer</strong>
-</footer>
+        <label class="block font-medium">Técnica de Enfermagem</label>
+        <select name="profissional"
+          class="w-full border rounded p-2 mt-1 mb-3">
+          <option value="">Selecione</option>
+          <option>Miranilde Cardoso dos Santos Sousa</option>
+          <option>Edna Maria Paulino da Silva</option>
+          <option>Valderice Alves da Silva</option>
+          <option>Barbara Elen Sales Nunes</option>
+          <option>Elivane Sales Lima dos Santos</option>
+          <option value="outra">Outra profissional</option>
+        </select>
+
+        <label class="block font-medium">Nome (se outra)</label>
+        <input type="text" name="profissional_outro"
+          class="w-full border rounded p-2 mt-1 mb-3">
+
+        <label class="block font-medium">COREN (se outra)</label>
+        <input type="text" name="coren"
+          class="w-full border rounded p-2 mt-1">
+      </section>
+
+      <!-- BOTÃO -->
+      <button
+        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold
+               hover:bg-blue-700 transition">
+        Gerar Evolução
+      </button>
+
+    </form>
+
+    <!-- RESULTADO -->
+    <section class="mt-8">
+      <h2 class="text-lg font-semibold text-blue-600 mb-3">
+        Evolução Gerada
+      </h2>
+
+      <textarea
+        class="w-full h-[350px] md:h-[450px] border rounded p-4 text-sm resize-none"
+        readonly
+      >{{ texto }}</textarea>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-200 text-center text-xs md:text-sm p-4">
+    <p>
+      EnfEvolue © 2026 • Ferramenta de apoio à evolução técnica de enfermagem<br>
+      Não substitui registros oficiais do prontuário eletrônico
+    </p>
+    <p class="font-semibold mt-1">
+      Desenvolvido por Bárbara Nunes Programmer
+    </p>
+  </footer>
 
 </body>
 </html>
