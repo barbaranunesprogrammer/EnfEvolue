@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -117,4 +118,156 @@
 </footer>
 
 </body>
+=======
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>EnfEvolue – Evolução de Enfermagem</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>EnfEvolue</h1>
+    <p>Evolução Técnica de Enfermagem</p>
+</header>
+
+<main>
+
+<!-- 🔵 CADASTRO TEMPORÁRIO -->
+<div class="cadastro-box">
+    <h2>👩‍⚕️ Cadastrar Profissional Temporária</h2>
+
+    <form method="POST">
+        <input type="hidden" name="acao" value="cadastrar_profissional">
+
+        <label>Nome</label>
+        <input type="text" name="novo_nome">
+
+        <label>COREN</label>
+        <input type="text" name="novo_coren">
+
+        <button type="submit">Cadastrar Profissional Temporária</button>
+
+        {% if mensagem %}
+            <p style="color:red; font-weight:bold; margin-top:10px;">
+                {{ mensagem }}
+            </p>
+        {% endif %}
+
+    </form>
+</div>
+
+<!-- 🟢 FORMULÁRIO PRINCIPAL -->
+<form method="POST">
+
+    <input type="hidden" name="acao" value="gerar_evolucao">
+
+    <h2>Dados da Evolução</h2>
+
+    <label>Horário da evolução</label>
+    <input type="time" name="horario" required>
+
+    <label>Paciente consciente e orientado?</label>
+    <select name="consciente" required>
+        <option value="">Selecione</option>
+        <option value="1">Sim</option>
+        <option value="2">Não</option>
+    </select>
+
+    <label>Paciente se queixa de algo?</label>
+    <select name="queixa" required>
+        <option value="">Selecione</option>
+        <option value="1">Sim</option>
+        <option value="2">Não</option>
+    </select>
+
+    <label>Descrição da queixa</label>
+    <input type="text" name="descricao_queixa">
+
+    <label>Escala da dor (0–10)</label>
+    <input type="number" name="dor" min="0" max="10">
+
+    <h2>Procedimentos</h2>
+
+    <label>Punção venosa realizada?</label>
+    <select name="puncao" required>
+        <option value="">Selecione</option>
+        <option value="1">Sim</option>
+        <option value="2">Não</option>
+    </select>
+
+    <label>Numeração do abocath</label>
+    <select name="abocath">
+        <option value="">Selecione</option>
+        <option value="18">18</option>
+        <option value="20">20</option>
+        <option value="22">22</option>
+        <option value="24">24</option>
+    </select>
+
+    <label>Medicação administrada conforme prescrição?</label>
+    <select name="medicacao" required>
+        <option value="">Selecione</option>
+        <option value="1">Sim</option>
+        <option value="2">Não</option>
+    </select>
+
+    <label>Desfecho do paciente</label>
+    <select name="desfecho">
+    <option value="">Selecione</option>
+    <option value="1">Alta</option>
+    <option value="2">Retorna avaliação médica</option>
+    <option value="3">Paciente evadiu</option>
+</select>
+
+    <h2>Profissional Responsável</h2>
+
+    <label>Técnica de Enfermagem</label>
+    <select name="profissional" required>
+        <option value="">Selecione</option>
+
+        {% for nome in profissionais %}
+            <option value="{{ nome }}">{{ nome }}</option>
+        {% endfor %}
+
+        <option value="outra">Outra profissional</option>
+    </select>
+
+    <label>Nome (se outra)</label>
+    <input type="text" name="profissional_outro">
+
+    <label>COREN (se outra)</label>
+    <input type="text" name="coren">
+
+    <label>Observação (opcional)</label>
+<input type="text" name="observacao" placeholder="Ex: Paciente se recusou à medicação">
+
+    <button type="submit">Gerar Evolução</button>
+
+</form>
+
+{% if texto %}
+<section class="resultado">
+    <h2>Evolução Gerada</h2>
+    <textarea readonly>{{ texto }}</textarea>
+</section>
+{% endif %}
+
+</main>
+
+<footer>
+    <p>
+        EnfEvolue © 2026<br>
+        Ferramenta de apoio à evolução técnica de enfermagem<br>
+        Não substitui registros oficiais do prontuário eletrônico
+    </p>
+    <strong>Desenvolvido por Bárbara Nunes Programmer</strong>
+</footer>
+
+</body>
+
 </html>
