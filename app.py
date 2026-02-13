@@ -103,6 +103,7 @@ def index():
             todos_profissionais = {**PROFISSIONAIS, **profissionais_temporarios}
 
             h = request.form.get("horario", "")
+            setor = request.form.get("setor","")
             consciente = request.form.get("consciente", "")
             queixa = request.form.get("queixa", "")
             desc = request.form.get("descricao_queixa", "")
@@ -116,7 +117,20 @@ def index():
             profissional = request.form.get("profissional", "")
             profissional_outro = request.form.get("profissional_outro", "")
             coren_manual = request.form.get("coren", "")
+            
 
+            
+            if setor == "Sala de medicação":
+                setor = "Sala de Medicação"
+            elif setor == "Observação Pediatrica":
+                setor = "Observação Pediatrica"
+            elif setor == "Observação":
+                setor = "Observação"
+            elif setor == "Sala Vermelha":
+                setor = "Sala Vermelha"
+            else:
+                setor = "Setor não especificado"    
+                    
             # ✅ Correção Abocath
             if abocath == "outro":
                 abocath = abocath_outro
@@ -130,7 +144,7 @@ def index():
                 coren = todos_profissionais.get(profissional, "COREN não informado")
 
             # ================= TEXTO =================
-            texto = f"{h} – Recebo paciente da Sala de Medicação.\n"
+            texto = f"{h} – Recebo paciente na {setor}.\n"
 
             texto += (
                 "Paciente consciente e orientado.\n"
