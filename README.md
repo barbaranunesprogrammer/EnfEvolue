@@ -16,7 +16,7 @@ O **EnfEvolue** é uma aplicação web criada para auxiliar técnicas(os) de enf
 - 💊 Evolução padrão da **Sala de Medicação**
 - 📋 Texto final pronto para copiar
 - 📱 Interface responsiva (celular e desktop)
-- 🌐 Deploy online no Render
+- 🌐 Deploy online no Vercel
 
 ---
 
@@ -26,7 +26,7 @@ O **EnfEvolue** é uma aplicação web criada para auxiliar técnicas(os) de enf
 - Flask  
 - HTML5  
 - CSS  
-- Render (deploy)
+- Vercel(deploy)
 
 ---
 
