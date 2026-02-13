@@ -1,10 +1,23 @@
 from flask import Flask, request, render_template, render_template_string, redirect, session
+from dotenv import load_dotenv
+import os
+
+# 🔹 Carrega variáveis do .env
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "enfevolue-secreto"
 
-# 🔐 senha simples
-SENHA_SITE = "enf123"
+# 🔐 Pega variáveis do ambiente (SEM valor fixo no código)
+app.secret_key = os.getenv("SECRET_KEY")
+SENHA_SITE = os.getenv("SENHA_SITE")
+
+# 🔒 Segurança: impede rodar sem variáveis configuradas
+if not app.secret_key:
+    raise ValueError("SECRET_KEY não configurada no .env")
+
+if not SENHA_SITE:
+    raise ValueError("SENHA_SITE não configurada no .env")
+
 
 # 👩‍⚕️ profissionais fixos
 PROFISSIONAIS = {
@@ -19,8 +32,7 @@ PROFISSIONAIS = {
 profissionais_temporarios = {}
 
 
-
-# 🔐 login estilizado
+# 🔐 LOGIN HTML
 LOGIN_HTML = """
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -39,7 +51,7 @@ LOGIN_HTML = """
 
 <main>
     <form method="post" style="max-width:400px;margin:auto;">
-        <h2 style="text-align:center;">Acesso Restrito - Versão Beta</h2>
+        <h2 style="text-align:center;">Acesso Restrito - Versão em Desenvolvimento</h2>
         <p style="text-align:center;margin-bottom:20px;">
         Usuários salvos somem ao reiniciar o sistema.
         </p>
@@ -69,6 +81,7 @@ LOGIN_HTML = """
 </html>
 """
 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     erro = False
@@ -78,6 +91,12 @@ def login():
             return redirect("/")
         erro = True
     return render_template_string(LOGIN_HTML, erro=erro)
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -157,13 +176,15 @@ def index():
             )
 
             if desfecho == "1":
-              texto += "Paciente recebe alta.\n"
+                texto += "Paciente recebe alta.\n"
             elif desfecho == "2":
                 texto += "Paciente retorna para avaliação médica.\n"
             elif desfecho == "3":
                 texto += "Paciente evadiu.\n"
+
             if observacao:
-             texto += f"Observação: {observacao}\n"
+                texto += f"Observação: {observacao}\n"
+
             texto += f"\n{nome_profissional} – {coren}\nTécnica de Enfermagem"
 
     todos_profissionais = {**PROFISSIONAIS, **profissionais_temporarios}
