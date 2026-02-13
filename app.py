@@ -120,16 +120,16 @@ def index():
             
 
             
-            if setor == "Sala de medicação":
-                setor = "Sala de Medicação"
-            elif setor == "Observação Pediatrica":
+            if setor == "Sala de Medicação":
+                setor = "na Sala de Medicação"
+            elif setor == "na Observação Pediatrica":
                 setor = "Observação Pediatrica"
-            elif setor == "Observação":
+            elif setor == " na Observação":
                 setor = "Observação"
             elif setor == "Sala Vermelha":
-                setor = "Sala Vermelha"
+                setor = "na Sala Vermelha"
             else:
-                setor = "Setor não especificado"    
+                setor = ".'"    
                     
             # ✅ Correção Abocath
             if abocath == "outro":
@@ -144,7 +144,7 @@ def index():
                 coren = todos_profissionais.get(profissional, "COREN não informado")
 
             # ================= TEXTO =================
-            texto = f"{h} – Recebo paciente na {setor}.\n"
+            texto = f"{h} – Recebo paciente  {setor}.\n"
 
             texto += (
                 "Paciente consciente e orientado.\n"
