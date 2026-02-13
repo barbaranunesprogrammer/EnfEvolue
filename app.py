@@ -2,24 +2,14 @@ from flask import Flask, request, render_template, render_template_string, redir
 from dotenv import load_dotenv
 import os
 
-# 🔹 Carrega variáveis do .env
+# ================= CONFIG =================
 load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY") or "enfevolue-secreto"
+SENHA_SITE = os.getenv("SENHA_SITE") or "1234"
 
-# 🔐 Pega variáveis do ambiente (SEM valor fixo no código)
-app.secret_key = os.getenv("SECRET_KEY")
-SENHA_SITE = os.getenv("SENHA_SITE")
-
-# 🔒 Segurança: impede rodar sem variáveis configuradas
-if not app.secret_key:
-    raise ValueError("SECRET_KEY não configurada no .env")
-
-if not SENHA_SITE:
-    raise ValueError("SENHA_SITE não configurada no .env")
-
-
-# 👩‍⚕️ profissionais fixos
+# ================= PROFISSIONAIS FIXOS =================
 PROFISSIONAIS = {
     "Miranilde Cardoso dos Santos Sousa": "COREN-GO 1.557.972",
     "Edna Maria Paulino da Silva": "COREN-GO 2.314.046",
@@ -28,59 +18,54 @@ PROFISSIONAIS = {
     "Elivane Sales Lima dos Santos": "COREN-GO 1.873.617"
 }
 
-# 👥 profissionais temporários (somem ao reiniciar)
 profissionais_temporarios = {}
 
-
-# 🔐 LOGIN HTML
-LOGIN_HTML = """
+# ================= LOGIN =================
+LOGIN_HTML = """ 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>EnfEvolue – Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style.css">
+<meta charset="UTF-8">
+<title>EnfEvolue – Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-
 <header>
-    <h1>EnfEvolue</h1>
-    <p>Evolução Técnica de Enfermagem</p>
+<h1>EnfEvolue</h1>
+<p>Evolução Técnica de Enfermagem</p>
 </header>
-
 <main>
-    <form method="post" style="max-width:400px;margin:auto;">
-        <h2 style="text-align:center;">Acesso Restrito - Versão em Desenvolvimento</h2>
-        <p style="text-align:center;margin-bottom:20px;">
-        Usuários salvos somem ao reiniciar o sistema.
-        </p>
+<form method="post" style="max-width:400px;margin:auto;">
+<h2 style="text-align:center;">
+Acesso Restrito - Versão em Desenvolvimento
+</h2>
+<p style="text-align:center;margin-bottom:20px;">
+Usuários salvos somem ao reiniciar o sistema.
+</p>
 
-        <label>Digite a senha</label>
-        <input type="password" name="senha" required>
+<label>Digite a senha</label>
+<input type="password" name="senha" required>
 
-        {% if erro %}
-            <p style="color:red;text-align:center;margin-top:10px;">
-                Senha incorreta
-            </p>
-        {% endif %}
+{% if erro %}
+<p style="color:red;text-align:center;margin-top:10px;">
+Senha incorreta
+</p>
+{% endif %}
 
-        <button type="submit">Entrar</button>
-    </form>
+<button type="submit">Entrar</button>
+</form>
 </main>
-
 <footer>
-    <p>
-        EnfEvolue © 2026<br>
-        Ferramenta de apoio à evolução técnica de enfermagem
-    </p>
-    <strong>Desenvolvido por Bárbara Nunes Programmer</strong>
+<p>
+EnfEvolue © 2026<br>
+Ferramenta de apoio à evolução técnica de enfermagem
+</p>
+<strong>Desenvolvido por Bárbara Nunes Programmer</strong>
 </footer>
-
 </body>
 </html>
 """
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -92,13 +77,7 @@ def login():
         erro = True
     return render_template_string(LOGIN_HTML, erro=erro)
 
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/login")
-
-
+# ================= SISTEMA =================
 @app.route("/", methods=["GET", "POST"])
 def index():
     if not session.get("logado"):
@@ -108,14 +87,12 @@ def index():
     mensagem = ""
 
     if request.method == "POST":
-
         acao = request.form.get("acao")
 
         # 🔹 CADASTRAR PROFISSIONAL TEMPORÁRIO
         if acao == "cadastrar_profissional":
             novo_nome = request.form.get("novo_nome", "").strip()
             novo_coren = request.form.get("novo_coren", "").strip()
-
             if novo_nome and novo_coren:
                 profissionais_temporarios[novo_nome] = novo_coren
                 mensagem = "Profissional cadastrada com sucesso (temporariamente)"
@@ -135,7 +112,6 @@ def index():
             medicacao = request.form.get("medicacao", "")
             desfecho = request.form.get("desfecho", "")
             observacao = request.form.get("observacao", "")
-
             profissional = request.form.get("profissional", "")
             profissional_outro = request.form.get("profissional_outro", "")
             coren_manual = request.form.get("coren", "")
@@ -196,6 +172,12 @@ def index():
         mensagem=mensagem
     )
 
+# ================= LOGOUT =================
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
 
+# ================= RODAR LOCAL =================
 if __name__ == "__main__":
     app.run(debug=True)
