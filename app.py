@@ -109,6 +109,7 @@ def index():
             dor = request.form.get("dor", "")
             puncao = request.form.get("puncao", "")
             abocath = request.form.get("abocath", "")
+            abocath_outro = request.form.get("abocath_outro", "")
             medicacao = request.form.get("medicacao", "")
             desfecho = request.form.get("desfecho", "")
             observacao = request.form.get("observacao", "")
@@ -116,6 +117,11 @@ def index():
             profissional_outro = request.form.get("profissional_outro", "")
             coren_manual = request.form.get("coren", "")
 
+            # ✅ Correção Abocath
+            if abocath == "outro":
+                abocath = abocath_outro
+
+            # ✅ Profissional
             if profissional == "outra" and profissional_outro:
                 nome_profissional = profissional_outro
                 coren = coren_manual if coren_manual else "COREN não informado"
@@ -123,12 +129,13 @@ def index():
                 nome_profissional = profissional
                 coren = todos_profissionais.get(profissional, "COREN não informado")
 
+            # ================= TEXTO =================
             texto = f"{h} – Recebo paciente da Sala de Medicação.\n"
 
             texto += (
                 "Paciente consciente e orientado.\n"
                 if consciente == "1"
-                else "Paciente não orientado.\n"
+                else "Paciente não orientado em espaço tempo.\n"
             )
 
             if queixa == "1":

@@ -32,11 +32,10 @@
         <button type="submit">Cadastrar Profissional Temporária</button>
 
         {% if mensagem %}
-            <p style="color:red; font-weight:bold; margin-top:10px;">
+            <p style="color:green; font-weight:bold; margin-top:10px;">
                 {{ mensagem }}
             </p>
         {% endif %}
-
     </form>
 </div>
 
@@ -58,35 +57,46 @@
     </select>
 
     <label>Paciente se queixa de algo?</label>
-    <select name="queixa" required>
+    <select name="queixa" id="queixa" required>
         <option value="">Selecione</option>
         <option value="1">Sim</option>
         <option value="2">Não</option>
     </select>
 
-    <label>Descrição da queixa</label>
-    <input type="text" name="descricao_queixa">
+    <div id="campo_queixa" style="display:none;">
+        <label>Descrição da queixa</label>
+        <input type="text" name="descricao_queixa">
 
-    <label>Escala da dor (0–10)</label>
-    <input type="number" name="dor" min="0" max="10">
+        <label>Escala da dor (0–10)</label>
+        <input type="number" name="dor" min="0" max="10">
+    </div>
 
     <h2>Procedimentos</h2>
 
     <label>Punção venosa realizada?</label>
-    <select name="puncao" required>
+    <select name="puncao" id="puncao" required>
         <option value="">Selecione</option>
         <option value="1">Sim</option>
         <option value="2">Não</option>
     </select>
 
-    <label>Numeração do abocath</label>
-    <select name="abocath">
-        <option value="">Selecione</option>
-        <option value="18">18</option>
-        <option value="20">20</option>
-        <option value="22">22</option>
-        <option value="24">24</option>
-    </select>
+    <div id="campo_puncao" style="display:none;">
+
+        <label>Numeração do abocath</label>
+        <select name="abocath" id="abocath">
+            <option value="">Selecione</option>
+            <option value="18">18</option>
+            <option value="20">20</option>
+            <option value="22">22</option>
+            <option value="24">24</option>
+            <option value="outro">Outro</option>
+        </select>
+
+        <input type="text" name="abocath_outro" id="abocath_outro"
+               placeholder="Digite outro número"
+               style="display:none; margin-top:5px;">
+
+    </div>
 
     <label>Medicação administrada conforme prescrição?</label>
     <select name="medicacao" required>
@@ -97,11 +107,11 @@
 
     <label>Desfecho do paciente</label>
     <select name="desfecho">
-    <option value="">Selecione</option>
-    <option value="1">Alta</option>
-    <option value="2">Retorna avaliação médica</option>
-    <option value="3">Paciente evadiu</option>
-</select>
+        <option value="">Selecione</option>
+        <option value="1">Alta</option>
+        <option value="2">Retorna avaliação médica</option>
+        <option value="3">Paciente evadiu</option>
+    </select>
 
     <h2>Profissional Responsável</h2>
 
@@ -123,7 +133,7 @@
     <input type="text" name="coren">
 
     <label>Observação (opcional)</label>
-<input type="text" name="observacao" placeholder="Ex: Paciente se recusou à medicação">
+    <input type="text" name="observacao" placeholder="Ex: Paciente se recusou à medicação">
 
     <button type="submit">Gerar Evolução</button>
 
@@ -146,6 +156,29 @@
     </p>
     <strong>Desenvolvido por Bárbara Nunes Programmer</strong>
 </footer>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+
+// Mostrar campo da queixa
+document.getElementById("queixa").addEventListener("change", function() {
+    document.getElementById("campo_queixa").style.display =
+        this.value === "1" ? "block" : "none";
+});
+
+// Mostrar campo punção
+document.getElementById("puncao").addEventListener("change", function() {
+    document.getElementById("campo_puncao").style.display =
+        this.value === "1" ? "block" : "none";
+});
+
+// Mostrar campo outro abocath
+document.getElementById("abocath").addEventListener("change", function() {
+    document.getElementById("abocath_outro").style.display =
+        this.value === "outro" ? "block" : "none";
+});
+
+</script>
 
 </body>
 </html>
