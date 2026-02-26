@@ -42,116 +42,166 @@
 <!-- 🟢 FORMULÁRIO PRINCIPAL -->
 <form method="POST">
 
-    <input type="hidden" name="acao" value="gerar_evolucao">
+<input type="hidden" name="acao" value="gerar_evolucao">
 
-    <h2>Dados da Evolução</h2>
+<h2>Tipo de Registro</h2>
 
-     <label>Setor</label>
-    <select name="setor" id="setor">
-        <option value="">Selecione</option>
-        <option value="Sala de Medicação">Sala de Medicação</option>
-        <option value="Observação Pediatrica">Observação Pediatrica</option>
-        <option value="Observação">Observação</option>
-        <option value="Sala Vermelha">Sala Vermelha</option>
-        <option value="outro">Outro</option>
-    </select>
+<select id="tipo_registro" name="tipo_registro" required>
+    <option value="">Selecione</option>
+    <option value="evolucao">Evolução</option>
+    <option value="curativo">Curativo</option>
+</select>
 
-    <label>Horário da evolução</label>
-    <input type="time" name="horario" required>
+<!-- ================= EVOLUÇÃO ================= -->
 
-    <label>Paciente consciente e orientado?</label>
-    <select name="consciente" required>
-        <option value="">Selecione</option>
-        <option value="1">Sim</option>
-        <option value="2">Não</option>
-    </select>
+<div id="formEvolucao">
 
-    <label>Paciente se queixa de algo?</label>
-    <select name="queixa" id="queixa" required>
-        <option value="">Selecione</option>
-        <option value="1">Sim</option>
-        <option value="2">Não</option>
-    </select>
+<h2>Dados da Evolução</h2>
 
-    <div id="campo_queixa" style="display:none;">
-        <label>Descrição da queixa</label>
-        <input type="text" name="descricao_queixa">
+<label>Setor</label>
+<select name="setor">
+    <option value="">Selecione</option>
+    <option value="Sala de Medicação">Sala de Medicação</option>
+    <option value="Observação Pediatrica">Observação Pediatrica</option>
+    <option value="Observação">Observação</option>
+    <option value="Sala Vermelha">Sala Vermelha</option>
+</select>
 
-        <label>Escala da dor (0–10)</label>
-        <input type="number" name="dor" min="0" max="10">
-    </div>
+<label>Horário da evolução</label>
+<input type="time" name="horario">
 
-    <h2>Procedimentos</h2>
+<label>Paciente consciente e orientado?</label>
+<select name="consciente">
+    <option value="">Selecione</option>
+    <option value="Sim">Sim</option>
+    <option value="Não">Não</option>
+</select>
 
-    <label>Punção venosa realizada?</label>
-    <select name="puncao" id="puncao" required>
-        <option value="">Selecione</option>
-        <option value="1">Sim</option>
-        <option value="2">Não</option>
-    </select>
+<label>Paciente se queixa de algo?</label>
+<select name="queixa">
+    <option value="">Selecione</option>
+    <option value="Sim">Sim</option>
+    <option value="Não">Não</option>
+</select>
 
-    <div id="campo_puncao" style="display:none;">
+<label>Descrição da queixa</label>
+<input type="text" name="descricao_queixa">
 
-        <label>Numeração do abocath</label>
-        <select name="abocath" id="abocath">
-            <option value="">Selecione</option>
-            <option value="18">18</option>
-            <option value="20">20</option>
-            <option value="22">22</option>
-            <option value="24">24</option>
-            <option value="outro">Outro</option>
-        </select>
+<label>Escala da dor (0–10)</label>
+<input type="number" name="dor" min="0" max="10">
 
-        <input type="text" name="abocath_outro" id="abocath_outro"
-               placeholder="Digite outro número"
-               style="display:none; margin-top:5px;">
+<h3>Procedimentos</h3>
 
-    </div>
+<label>Punção venosa realizada?</label>
+<select name="puncao">
+    <option value="">Selecione</option>
+    <option value="Sim">Sim</option>
+    <option value="Não">Não</option>
+</select>
 
-    <label>Medicação administrada conforme prescrição?</label>
-    <select name="medicacao" required>
-        <option value="">Selecione</option>
-        <option value="1">Sim</option>
-        <option value="2">Não</option>
-    </select>
+<label>Numeração do abocath</label>
+<select name="abocath" id="abocath">
+    <option value="">Selecione</option>
+    <option value="18">18</option>
+    <option value="20">20</option>
+    <option value="22">22</option>
+    <option value="24">24</option>
+    <option value="outro">Outro</option>
+</select>
 
-    <label>Desfecho do paciente</label>
-    <select name="desfecho">
-        <option value="">Selecione</option>
-        <option value="1">Alta</option>
-        <option value="2">Retorna avaliação médica</option>
-        <option value="3">Paciente evadiu</option>
-    </select>
+<input type="text" name="abocath_outro" id="abocath_outro"
+       placeholder="Digite outro número"
+       style="display:none; margin-top:5px;">
 
-    <h2>Profissional Responsável</h2>
+<label>Medicação administrada conforme prescrição?</label>
+<select name="medicacao">
+    <option value="">Selecione</option>
+    <option value="Sim">Sim</option>
+    <option value="Não">Não</option>
+</select>
 
-    <label>Técnica de Enfermagem</label>
-    <select name="profissional" required>
-        <option value="">Selecione</option>
+<label>Desfecho do paciente</label>
+<select name="desfecho">
+    <option value="">Selecione</option>
+    <option value="Alta">Alta</option>
+    <option value="Retorna avaliação médica">Retorna avaliação médica</option>
+    <option value="Paciente evadiu">Paciente evadiu</option>
+</select>
 
-        {% for nome in profissionais %}
-            <option value="{{ nome }}">{{ nome }}</option>
-        {% endfor %}
+</div>
 
-        <option value="outra">Outra profissional</option>
-    </select>
+<!-- ================= CURATIVO ================= -->
 
-    <label>Nome (se outra)</label>
-    <input type="text" name="profissional_outro">
+<div id="formCurativo" style="display:none;">
 
-    <label>COREN (se outra)</label>
-    <input type="text" name="coren">
+<h2>Registro de Curativo</h2>
 
-    <label>Observação (opcional)</label>
-    <input type="text" name="observacao" placeholder="Ex: Paciente se recusou à medicação">
+<label>Horário do procedimento</label>
+<input type="time" name="horario_curativo">
 
-    <button type="submit">Gerar Evolução</button>
+<label>Tipo de Curativo</label>
+<select name="tipo_curativo">
+    <option value="">Selecione</option>
+    <option value="Simples">Simples</option>
+    <option value="Compressivo">Compressivo</option>
+    <option value="Oclusivo">Oclusivo</option>
+    <option value="Cirúrgico">Cirúrgico</option>
+</select>
+
+<h3>Materiais Utilizados</h3>
+
+<label>Gaze (quantidade)</label>
+<input type="number" name="qtd_gaze" min="0">
+
+<label><input type="checkbox" name="alcool" value="Álcool 70%"> Álcool 70%</label>
+
+<label><input type="checkbox" name="clorexidina" value="Clorexidina"> Clorexidina</label>
+
+<label><input type="checkbox" name="sf" value="SF 0,9%"> SF 0,9%</label>
+
+<label>Pomada</label>
+<input type="text" name="pomada">
+
+<label>Outros materiais</label>
+<input type="text" name="outros_materiais">
+
+<h3>Avaliação da Ferida</h3>
+
+<label>Aspecto</label>
+<input type="text" name="aspecto">
+
+<label>Exsudato</label>
+<select name="exsudato">
+    <option value="">Selecione</option>
+    <option value="Ausente">Ausente</option>
+    <option value="Seroso">Seroso</option>
+    <option value="Purulento">Purulento</option>
+</select>
+
+</div>
+
+<!-- ================= PROFISSIONAL ================= -->
+
+<h2>Profissional Responsável</h2>
+
+<label>Técnica de Enfermagem</label>
+<select name="profissional" required>
+    <option value="">Selecione</option>
+    {% for nome in profissionais %}
+        <option value="{{ nome }}">{{ nome }}</option>
+    {% endfor %}
+</select>
+
+<label>Observação (opcional)</label>
+<input type="text" name="observacao">
+
+<button type="submit">Gerar Registro</button>
 
 </form>
 
 {% if texto %}
 <section class="resultado">
-    <h2>Evolução Gerada</h2>
+    <h2>Registro Gerado</h2>
     <textarea readonly>{{ texto }}</textarea>
 </section>
 {% endif %}
@@ -167,25 +217,27 @@
     <strong>Desenvolvido por Bárbara Nunes Programmer</strong>
 </footer>
 
-<!-- ================= JAVASCRIPT ================= -->
 <script>
 
-// Mostrar campo da queixa
-document.getElementById("queixa").addEventListener("change", function() {
-    document.getElementById("campo_queixa").style.display =
-        this.value === "1" ? "block" : "none";
+// Alternar entre evolução e curativo
+document.getElementById("tipo_registro").addEventListener("change", function() {
+
+    let evolucao = document.getElementById("formEvolucao");
+    let curativo = document.getElementById("formCurativo");
+
+    if (this.value === "curativo") {
+        evolucao.style.display = "none";
+        curativo.style.display = "block";
+    } else {
+        evolucao.style.display = "block";
+        curativo.style.display = "none";
+    }
 });
 
-// Mostrar campo punção
-document.getElementById("puncao").addEventListener("change", function() {
-    document.getElementById("campo_puncao").style.display =
-        this.value === "1" ? "block" : "none";
-});
-
-// Mostrar campo outro abocath
+// Campo outro abocath
 document.getElementById("abocath").addEventListener("change", function() {
-    document.getElementById("abocath_outro").style.display =
-        this.value === "outro" ? "block" : "none";
+    let outroCampo = document.getElementById("abocath_outro");
+    outroCampo.style.display = this.value === "outro" ? "block" : "none";
 });
 
 </script>

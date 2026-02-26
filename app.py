@@ -18,6 +18,7 @@ PROFISSIONAIS = {
     "Elivane Sales Lima dos Santos": "COREN-GO 1.873.617"
 }
 
+# 🔹 Temporários (somem ao reiniciar)
 profissionais_temporarios = {}
 
 # ================= LOGIN =================
@@ -35,14 +36,12 @@ LOGIN_HTML = """
 <h1>EnfEvolue</h1>
 <p>Evolução Técnica de Enfermagem</p>
 </header>
+
 <main>
 <form method="post" style="max-width:400px;margin:auto;">
 <h2 style="text-align:center;">
-Acesso Restrito - Versão em Desenvolvimento
+Acesso Restrito
 </h2>
-<p style="text-align:center;margin-bottom:20px;">
-Usuários salvos somem ao reiniciar o sistema.
-</p>
 
 <label>Digite a senha</label>
 <input type="password" name="senha" required>
@@ -56,11 +55,9 @@ Senha incorreta
 <button type="submit">Entrar</button>
 </form>
 </main>
+
 <footer>
-<p>
-EnfEvolue © 2026<br>
-Ferramenta de apoio à evolução técnica de enfermagem
-</p>
+<p>EnfEvolue © 2026</p>
 <strong>Desenvolvido por Bárbara Nunes Programmer</strong>
 </footer>
 </body>
@@ -80,6 +77,7 @@ def login():
 # ================= SISTEMA =================
 @app.route("/", methods=["GET", "POST"])
 def index():
+
     if not session.get("logado"):
         return redirect("/login")
 
@@ -87,102 +85,122 @@ def index():
     mensagem = ""
 
     if request.method == "POST":
+
         acao = request.form.get("acao")
 
-        # 🔹 CADASTRAR PROFISSIONAL TEMPORÁRIO
+        # =========================
+        # CADASTRAR PROFISSIONAL TEMPORÁRIO
+        # =========================
         if acao == "cadastrar_profissional":
-            novo_nome = request.form.get("novo_nome", "").strip()
-            novo_coren = request.form.get("novo_coren", "").strip()
-            if novo_nome and novo_coren:
-                profissionais_temporarios[novo_nome] = novo_coren
-                mensagem = "Profissional cadastrada com sucesso (temporariamente)"
+            nome = request.form.get("novo_nome", "").strip()
+            coren = request.form.get("novo_coren", "").strip()
 
-        # 🔹 GERAR EVOLUÇÃO
+            if nome and coren:
+                profissionais_temporarios[nome] = coren
+                mensagem = "Profissional temporária cadastrada com sucesso."
+
+        # =========================
+        # GERAR EVOLUÇÃO / CURATIVO
+        # =========================
         if acao == "gerar_evolucao":
+
+            tipo = request.form.get("tipo_registro")
 
             todos_profissionais = {**PROFISSIONAIS, **profissionais_temporarios}
 
-            h = request.form.get("horario", "")
-            setor = request.form.get("setor","")
-            consciente = request.form.get("consciente", "")
-            queixa = request.form.get("queixa", "")
-            desc = request.form.get("descricao_queixa", "")
-            dor = request.form.get("dor", "")
-            puncao = request.form.get("puncao", "")
-            abocath = request.form.get("abocath", "")
-            abocath_outro = request.form.get("abocath_outro", "")
-            medicacao = request.form.get("medicacao", "")
-            desfecho = request.form.get("desfecho", "")
-            observacao = request.form.get("observacao", "")
             profissional = request.form.get("profissional", "")
-            profissional_outro = request.form.get("profissional_outro", "")
-            coren_manual = request.form.get("coren", "")
-            
+            coren = todos_profissionais.get(profissional, "COREN não informado")
 
-            
-            if setor == "Sala de Medicação":
-                setor = "na Sala de Medicação"
-            elif setor == "na Observação Pediatrica":
-                setor = "Observação Pediatrica"
-            elif setor == " na Observação":
-                setor = "Observação"
-            elif setor == "Sala Vermelha":
-                setor = "na Sala Vermelha"
-            else:
-                setor = ".'"    
-                    
-            # ✅ Correção Abocath
-            if abocath == "outro":
-                abocath = abocath_outro
+            # =====================================
+            # 🏥 EVOLUÇÃO NORMAL
+            # =====================================
+            if tipo == "evolucao":
 
-            # ✅ Profissional
-            if profissional == "outra" and profissional_outro:
-                nome_profissional = profissional_outro
-                coren = coren_manual if coren_manual else "COREN não informado"
-            else:
-                nome_profissional = profissional
-                coren = todos_profissionais.get(profissional, "COREN não informado")
+                h = request.form.get("horario", "")
+                setor = request.form.get("setor", "")
+                consciente = request.form.get("consciente")
+                queixa = request.form.get("queixa")
+                descricao = request.form.get("descricao_queixa", "")
+                dor = request.form.get("dor", "")
+                puncao = request.form.get("puncao")
+                abocath = request.form.get("abocath", "")
+                medicacao = request.form.get("medicacao")
+                desfecho = request.form.get("desfecho")
 
-            # ================= TEXTO =================
-            texto = f"{h} – Recebo paciente  {setor}.\n"
+                texto += f"{h} – Recebo paciente na {setor}.\n"
 
-            texto += (
-                "Paciente consciente e orientado.\n"
-                if consciente == "1"
-                else "Paciente não orientado em espaço tempo.\n"
-            )
-
-            if queixa == "1":
-                texto += f"Refere {desc if desc else 'queixa não especificada'}"
-                if dor:
-                    texto += f", escala de dor {dor}/10."
-                texto += "\n"
-            else:
-                texto += "Paciente sem queixas no momento.\n"
-
-            if puncao == "1":
-                if abocath:
-                    texto += f"Punção venosa realizada com sucesso com abocath {abocath}.\n"
+                if consciente == "Sim":
+                    texto += "Paciente consciente e orientado.\n"
                 else:
-                    texto += "Punção venosa realizada com sucesso.\n"
+                    texto += "Paciente não consciente ou desorientado.\n"
 
-            texto += (
-                "Medicação administrada conforme prescrição médica.\n"
-                if medicacao == "1"
-                else "Medicação não administrada.\n"
-            )
+                if queixa == "Sim":
+                    texto += f"Paciente refere: {descricao}.\n"
+                    if dor:
+                        texto += f"Escala de dor: {dor}/10.\n"
+                else:
+                    texto += "Paciente sem queixas no momento.\n"
 
-            if desfecho == "1":
-                texto += "Paciente recebe alta.\n"
-            elif desfecho == "2":
-                texto += "Paciente retorna para avaliação médica.\n"
-            elif desfecho == "3":
-                texto += "Paciente evadiu.\n"
+                if puncao == "Sim":
+                    texto += f"Realizada punção venosa com abocath nº {abocath}.\n"
+                else:
+                    texto += "Não foi necessária punção venosa.\n"
 
-            if observacao:
-                texto += f"Observação: {observacao}\n"
+                if medicacao == "Sim":
+                    texto += "Medicação administrada conforme prescrição médica.\n"
+                else:
+                    texto += "Medicação não administrada.\n"
 
-            texto += f"\n{nome_profissional} – {coren}\nTécnica de Enfermagem"
+                if desfecho:
+                    texto += f"{desfecho}.\n"
+
+            # =====================================
+            # 🩹 CURATIVO
+            # =====================================
+            elif tipo == "curativo":
+
+                h = request.form.get("horario_curativo", "")
+                tipo_curativo = request.form.get("tipo_curativo", "")
+                qtd_gaze = request.form.get("qtd_gaze")
+                alcool = request.form.get("alcool")
+                clorexidina = request.form.get("clorexidina")
+                pomada = request.form.get("pomada", "")
+                exsudato = request.form.get("exsudato", "")
+                aspecto = request.form.get("aspecto", "")
+
+                texto += f"{h} – Realizado curativo.\n\n"
+                texto += f"Tipo de curativo: {tipo_curativo}.\n"
+
+                materiais = []
+
+                if qtd_gaze and int(qtd_gaze) > 0:
+                    materiais.append(f"{qtd_gaze} gaze(s)")
+
+                if alcool:
+                    materiais.append("Álcool 70%")
+
+                if clorexidina:
+                    materiais.append("Clorexidina")
+
+                if pomada:
+                    materiais.append(f"Pomada {pomada}")
+
+                if materiais:
+                    texto += "Utilizado: " + ", ".join(materiais) + ".\n"
+
+                if aspecto:
+                    texto += f"Aspecto da ferida: {aspecto}.\n"
+
+                if exsudato:
+                    texto += f"Exsudato {exsudato}.\n"
+
+                texto += "Procedimento realizado com técnica asséptica.\n"
+
+            # =====================================
+            # PROFISSIONAL
+            # =====================================
+            texto += f"\n{profissional} – {coren}\n"
+            texto += "Técnica de Enfermagem"
 
     todos_profissionais = {**PROFISSIONAIS, **profissionais_temporarios}
 
@@ -199,6 +217,6 @@ def logout():
     session.clear()
     return redirect("/login")
 
-# ================= RODAR LOCAL =================
+# ================= RODAR =================
 if __name__ == "__main__":
     app.run(debug=True)
