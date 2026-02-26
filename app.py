@@ -164,7 +164,9 @@ def index():
                 qtd_gaze = request.form.get("qtd_gaze")
                 alcool = request.form.get("alcool")
                 clorexidina = request.form.get("clorexidina")
+                sf = request.form.get("sf")
                 pomada = request.form.get("pomada", "")
+                outros = request.form.get("outros_materiais", "")
                 exsudato = request.form.get("exsudato", "")
                 aspecto = request.form.get("aspecto", "")
 
@@ -173,7 +175,7 @@ def index():
 
                 materiais = []
 
-                if qtd_gaze and int(qtd_gaze) > 0:
+                if qtd_gaze and qtd_gaze.isdigit() and int(qtd_gaze) > 0:
                     materiais.append(f"{qtd_gaze} gaze(s)")
 
                 if alcool:
@@ -182,8 +184,14 @@ def index():
                 if clorexidina:
                     materiais.append("Clorexidina")
 
-                if pomada:
-                    materiais.append(f"Pomada {pomada}")
+                if sf:
+                    materiais.append("SF 0,9%")
+
+                if pomada.strip():
+                    materiais.append(f"Pomada {pomada.strip()}")
+
+                if outros.strip():
+                    materiais.append(outros.strip())
 
                 if materiais:
                     texto += "Utilizado: " + ", ".join(materiais) + ".\n"
