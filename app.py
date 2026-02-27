@@ -123,9 +123,9 @@ def index():
                 descricao = request.form.get("descricao_queixa", "")
                 dor = request.form.get("dor", "")
                 puncao = request.form.get("puncao")
-                abocath = request.form.get("abocath", "")
+                abocath = request.form.get("abocath", "").strip()
                 medicacao = request.form.get("medicacao")
-                desfecho = request.form.get("desfecho")
+                desfecho = request.form.get("desfecho", "").strip()
 
                 texto += f"{h} – Recebo paciente na {setor}.\n"
 
@@ -141,8 +141,12 @@ def index():
                 else:
                     texto += "Paciente sem queixas no momento.\n"
 
+                # ✅ AJUSTE DA PUNÇÃO
                 if puncao == "Sim":
-                    texto += f"Realizada punção venosa com abocath nº {abocath}.\n"
+                    if abocath:
+                        texto += f"Realizada punção venosa com abocath nº {abocath}.\n"
+                    else:
+                        texto += "Punção realizada com sucesso.\n"
                 else:
                     texto += "Não foi necessária punção venosa.\n"
 
@@ -151,8 +155,12 @@ def index():
                 else:
                     texto += "Medicação não administrada.\n"
 
+                # ✅ AJUSTE DA ALTA
                 if desfecho:
-                    texto += f"{desfecho}.\n"
+                    if desfecho.lower() == "alta":
+                        texto += "Paciente recebe alta.\n"
+                    else:
+                        texto += f"{desfecho}.\n"
 
             # =====================================
             # 🩹 CURATIVO
