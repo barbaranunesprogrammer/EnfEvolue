@@ -121,6 +121,7 @@ def index():
                 consciente = request.form.get("consciente")
                 queixa = request.form.get("queixa")
                 descricao = request.form.get("descricao_queixa", "")
+                observacao = request.form.get("observacao", "").strip()  # ✅ ADICIONADO
                 dor = request.form.get("dor", "")
                 puncao = request.form.get("puncao")
                 abocath = request.form.get("abocath", "").strip()
@@ -140,6 +141,10 @@ def index():
                         texto += f"Escala de dor: {dor}/10.\n"
                 else:
                     texto += "Paciente sem queixas no momento.\n"
+
+                # ✅ NOVA PARTE – OBSERVAÇÃO
+                if observacao:
+                    texto += f"Observação: {observacao}.\n"
 
                 # ✅ AJUSTE DA PUNÇÃO
                 if puncao == "Sim":
